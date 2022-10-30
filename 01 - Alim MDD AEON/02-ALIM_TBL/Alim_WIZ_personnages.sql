@@ -2,7 +2,7 @@ create function "WizeCosm".alim_wiz_personnages() returns character varying
     language plpgsql
 as
 $$
-begin
+begin  
     DELETE
     FROM "WizeCosm"."WIZ_personnages"
     WHERE 1 = 1;
