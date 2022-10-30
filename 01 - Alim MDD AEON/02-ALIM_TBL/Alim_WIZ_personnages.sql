@@ -4,10 +4,10 @@ as
 $$
 begin
     DELETE
-    FROM "WizeCosm"."WIZ_personnages"
+    FROM "WizeCosm".wiz_personnages
     WHERE 1 = 1;
 
-    INSERT INTO "WizeCosm"."WIZ_personnages" (
+    INSERT INTO "WizeCosm".wiz_personnages (
                                          "character_type",
                                          "character_label",
                                          "character_identifier",
