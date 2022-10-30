@@ -1,19 +1,20 @@
-create or replace function "WizeCosm".Alim_WIZ_globale() returns varchar
+create procedure alim_wiz_globale()
     language plpgsql
 as
 $$
 begin
 
-  execute "WizeCosm".alim_wiz_chronological_events();
+ set search_path = "WizeCosm";
 
-  execute "WizeCosm".alim_wiz_geographie();
+  perform "WizeCosm".alim_wiz_chronological_events();
 
-  execute"WizeCosm".alim_wiz_personnages();
+  perform "WizeCosm".alim_wiz_geographie();
 
-END
+  perform "WizeCosm".alim_wiz_personnages();
+
+END;
+
 $$;
 
-
-
-
+alter procedure alim_wiz_globale() owner to aoavfbel;
 

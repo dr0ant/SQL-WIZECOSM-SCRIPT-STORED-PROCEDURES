@@ -1,4 +1,4 @@
-create function "WizeCosm".alim_wiz_personnages() returns character varying
+create or replace function "WizeCosm".alim_wiz_personnages() returns character varying
     language plpgsql
 as
 $$
