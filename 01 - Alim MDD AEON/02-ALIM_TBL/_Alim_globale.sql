@@ -1,4 +1,4 @@
-create procedure alim_wiz_globale()
+create procedure "WizeCosm".alim_wiz_globale()
     language plpgsql
 as
 $$
@@ -16,5 +16,5 @@ END;
 
 $$;
 
-alter procedure alim_wiz_globale() owner to aoavfbel;
+alter procedure "WizeCosm".alim_wiz_globale() owner to aoavfbel;
 
