@@ -1,13 +1,13 @@
-create function Alim_WIZ_chronological_events() returns varchar
+create function "WizeCosm".Alim_WIZ_chronological_events() returns varchar
     language plpgsql
 as
 $$
 begin
     DELETE
-    FROM wiz_chronological_events
+    FROM "WizeCosm".wiz_chronological_events
     WHERE 1 = 1;
 
-    INSERT INTO wiz_chronological_events(Type, Label, OBJ_ID, chronological_position, Parent_OBJ_ID, start_date,
+    INSERT INTO "WizeCosm".wiz_chronological_events(Type, Label, OBJ_ID, chronological_position, Parent_OBJ_ID, start_date,
                                          duration,
                                          end_date, Blocked_BY, Blocks, Evernote_LINk, location, ADDED_DATE)
     SELECT src."Type",
@@ -23,11 +23,11 @@ begin
            src."Links",
            src."Location",
            NOW()
-    FROM "IMP_aeon_data" src
+    FROM "WizeCosm"."IMP_aeon" src
     WHERE 1 = 1
       AND src."Type" IN ('Periode', 'Arc', 'Ere', 'Backstory', 'Flashback', 'Event');
     RETURN 'OK';
-END;
+END
 $$;
 
 
