@@ -1,4 +1,4 @@
-create or replace view wizecosm.V_continents
+create or replace view wizecosm.V_lieu
 AS
     (
     SELECT
@@ -14,6 +14,6 @@ AS
     LEFT JOIN wizecosm.wiz_geographie geo2
         ON geo1.objet_geographique_parent_name = geo2.objet_geographique_name
     WHERE 1=1
-        AND geo1.objet_geographique_type = 'Continent'
+        AND geo1.objet_geographique_type = 'Lieu'
     )
 ;

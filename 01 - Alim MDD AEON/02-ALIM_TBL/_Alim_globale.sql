@@ -1,20 +1,20 @@
-create procedure "WizeCosm".alim_wiz_globale()
+create or replace procedure wizecosm.alim_wiz_globale()
     language plpgsql
 as
 $$
 begin
 
- set search_path = "WizeCosm";
+ set search_path = wizecosm;
 
-  perform "WizeCosm".alim_wiz_chronological_events();
+  perform wizecosm.alim_wiz_chronological_events();
 
-  perform "WizeCosm".alim_wiz_geographie();
+  perform wizecosm.alim_wiz_geographie();
 
-  perform "WizeCosm".alim_wiz_personnages();
+  perform wizecosm.alim_wiz_personnages();
 
 END;
 
 $$;
 
-alter procedure "WizeCosm".alim_wiz_globale() owner to aoavfbel;
+alter procedure wizecosm.alim_wiz_globale() owner to aoavfbel;
 

@@ -1,4 +1,4 @@
-create table "WizeCosm".wiz_geographie
+create table wizecosm.wiz_geographie
 (
     objet_geographique_type        varchar(20),
     objet_geographique_id          varchar(20),

@@ -1,13 +1,13 @@
-create or replace function "WizeCosm".alim_wiz_personnages() returns character varying
+create or replace function wizecosm.alim_wiz_personnages() returns character varying
     language plpgsql
 as
 $$
 begin
     DELETE
-    FROM "WizeCosm".wiz_personnages
+    FROM wizecosm.wiz_personnages
     WHERE 1 = 1;
 
-    INSERT INTO "WizeCosm".wiz_personnages (
+    INSERT INTO wizecosm.wiz_personnages (
                                          "character_type",
                                          "character_label",
                                          "character_identifier",
@@ -34,7 +34,7 @@ begin
            src."Goals",
            src."Nickname",
            NOW()
-    FROM "WizeCosm"."IMP_aeon" src
+    FROM wizecosm."IMP_aeon" src
     WHERE 1 = 1
       AND src."Type" ='Character'
     ;

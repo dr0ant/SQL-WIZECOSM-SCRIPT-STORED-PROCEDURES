@@ -1,13 +1,13 @@
-create or replace function "WizeCosm".alim_wiz_geographie() returns character varying
+create or replace function wizecosm.alim_wiz_geographie() returns character varying
     language plpgsql
 as
 $$
 begin
     DELETE
-    FROM "WizeCosm".wiz_geographie
+    FROM wizecosm.wiz_geographie
     WHERE 1 = 1;
 
-    INSERT INTO "WizeCosm".wiz_geographie (
+    INSERT INTO wizecosm.wiz_geographie (
                                             objet_geographique_type,
                                             objet_geographique_id,
                                             objet_geographique_name,
@@ -23,7 +23,7 @@ begin
            TRIM(right(src."Parent",length("Parent")-position('-' in "Parent"))),
            src."Tags",
            NOW()
-    FROM "WizeCosm"."IMP_aeon" src
+    FROM wizecosm."IMP_aeon" src
     WHERE 1 = 1
       AND src."Type" ='Place'
     ;

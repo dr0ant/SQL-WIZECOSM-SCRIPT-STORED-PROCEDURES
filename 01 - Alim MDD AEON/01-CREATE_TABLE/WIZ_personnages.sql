@@ -1,4 +1,4 @@
-create table "WizeCosm"."WIZ_personnages"
+create table wizecosm."WIZ_personnages"
 (
     character_type           varchar(200),
     character_label          varchar(200),
@@ -15,5 +15,5 @@ create table "WizeCosm"."WIZ_personnages"
     added_date               timestamp
 );
 
-alter table "WizeCosm"."WIZ_personnages"
+alter table wizecosm.wiz_personnages
     owner to aoavfbel;
