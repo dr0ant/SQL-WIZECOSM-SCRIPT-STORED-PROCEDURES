@@ -20,6 +20,7 @@ begin
                                          "character_faction",
                                          "character_goals",
                                          "character_nickname",
+                                          "character_tags",
                                          added_date)
     SELECT src."Type",
            src."Label",
@@ -33,6 +34,7 @@ begin
            src."Faction",
            src."Goals",
            src."Nickname",
+           src."Tags",
            NOW()
     FROM wizecosm."IMP_aeon" src
     WHERE 1 = 1

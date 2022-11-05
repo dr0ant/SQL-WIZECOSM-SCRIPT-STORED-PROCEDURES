@@ -1,4 +1,7 @@
-create table wizecosm."WIZ_personnages"
+
+DROP table if exists  aoavfbel.wizecosm.wiz_personnages;
+
+create table wizecosm.wiz_personnages
 (
     character_type           varchar(200),
     character_label          varchar(200),
@@ -12,6 +15,7 @@ create table wizecosm."WIZ_personnages"
     character_faction        varchar(200),
     character_goals          varchar(500),
     character_nickname       varchar(200),
+    character_tags           varchar(300),
     added_date               timestamp
 );
 
