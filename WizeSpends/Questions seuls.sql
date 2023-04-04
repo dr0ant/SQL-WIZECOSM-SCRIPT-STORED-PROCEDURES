@@ -20,7 +20,7 @@
 -- Combien y a t'il de lignes dans la table IMP_operations
 
 
--- Combien y a t'il de "Libellé" différents dans la lka table IMP_operations
+-- Combien y a t'il de "Libellé" différents dans la  table IMP_operations
 
 
 -- En 2021, quel est le volume de dépenses totales ?
