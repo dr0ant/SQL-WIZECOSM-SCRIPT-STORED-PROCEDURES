@@ -70,6 +70,17 @@ WHERE 1=1
 GROUP BY titre
 ORDER BY time_spend_on_content DESC ;
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+WITH DATAS
+    AS
+         (SELECT DATE(con.start_time) AS DATE,
+                 SUM(con.duration_in_hours) AS daily_watchtime
+          FROM "WizeAnalytics".v_netflix_activilites_content con
+          WHERE 1 = 1
+            AND con.profile = 'Larcher fam'
+          group by DATE)
+SELECT
+    AVG(daily_watchtime)
+FROM DATAS
 
 
