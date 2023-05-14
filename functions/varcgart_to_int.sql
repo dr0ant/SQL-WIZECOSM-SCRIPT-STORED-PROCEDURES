@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION convert_to_int(varchar_value VARCHAR)
+  RETURNS INTEGER AS
+$$
+BEGIN
+  RETURN CAST(varchar_value AS INTEGER);
+EXCEPTION
+  WHEN others THEN
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
