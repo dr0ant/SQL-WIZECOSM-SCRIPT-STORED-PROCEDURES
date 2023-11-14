@@ -108,13 +108,72 @@ from wizetrading.combined_stream_treated
 where stream ='btcusd_perp@kline_1w'
     );
 
+------------------------------------------------------------
+/* create history candle*/
+
+
+
+create view wizetrading.v_BTCUSD_PERP_5min_history
+as
+(
+select *
+from wizetrading.combined_stream_treated
+where stream ='btcusd_perp@kline_5m'
+and candle_closed = true
+    );
+
+create view wizetrading.v_BTCUSD_PERP_15min_history
+as
+(
+select *
+from wizetrading.combined_stream_treated
+where stream ='btcusd_perp@kline_15m'
+and candle_closed = true
+    );
+
+create view wizetrading.v_BTCUSD_PERP_1H_history
+as
+(
+select *
+from wizetrading.combined_stream_treated
+where stream ='btcusd_perp@kline_1h'
+and candle_closed = true
+    );
+
+create view wizetrading.v_BTCUSD_PERP_4H_history
+as
+(
+select *
+from wizetrading.combined_stream_treated
+where stream ='btcusd_perp@kline_4h'
+and candle_closed = true
+    );
+
+create view wizetrading.v_BTCUSD_PERP_1D_history
+as
+(
+select *
+from wizetrading.combined_stream_treated
+where stream ='btcusd_perp@kline_1d'
+and candle_closed = true
+    );
+
+create view wizetrading.v_BTCUSD_PERP_1W_history
+as
+(
+select *
+from wizetrading.combined_stream_treated
+where stream ='btcusd_perp@kline_1w'
+and candle_closed = true
+    );
+
 ------------------------------------------------------------------------
 create view wizetrading.v_combined_treated_streams
 as
 (
 select
 /*indicators*/
-
+lag(five_min.openprice,1) over (partition by five_min.stream order by five_min.event_time ) as prev_fivemin_openprice,
 
 /*source data*/
 five_min.*,
@@ -139,7 +198,134 @@ from wizetrading.v_btcusd_perp_5min as five_min
 /* link 1w chart */
          left join wizetrading.v_btcusd_perp_1w as one_week
                    ON five_min.event_time = one_week.event_time
+order by five_min.event_time
     )
 ;
 
 
+------------------------------------------------
+select
+    TO_CHAR(TO_TIMESTAMP(event_time / 1000), 'YYYY-MM-DD HH24:MI:SS') AS formatted_datetime,
+    *
+from wizetrading.v_btcusd_perp_5min_history;
+-- 1699615 159936
+
+create view wizetrading.candle_5min_current_and_history
+    as
+(
+with current_candle
+         as (select TO_CHAR(TO_TIMESTAMP(event_time / 1000), 'YYYY-MM-DD HH24:MI:SS') AS formatted_datetime,
+                    *
+             from wizetrading.v_btcusd_perp_5min
+             where candle_closed = false)
+        ,
+     history_candles
+         as (select TO_CHAR(TO_TIMESTAMP(event_time / 1000), 'YYYY-MM-DD HH24:MI:SS') AS formatted_datetime,
+                    *
+             from wizetrading.v_btcusd_perp_5min_history),
+     pivot_curent
+         as
+         (select curr.*,
+                 lag(hist.openprice, 1) over (partition by curr.event_time order by hist.event_time) as openprice_lag_1,
+                 lag(hist.openprice, 2)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_2,
+                 lag(hist.openprice, 3)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_3,
+                 lag(hist.openprice, 4)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_4,
+                 lag(hist.openprice, 5)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_5,
+                 lag(hist.openprice, 6)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_6,
+                 lag(hist.openprice, 7)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_7,
+                 lag(hist.openprice, 8)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_8,
+                 lag(hist.openprice, 9)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_9,
+                 lag(hist.openprice, 10)
+                 over (partition by curr.event_time order by hist.event_time)                        as openprice_lag_10,
+
+                 lag(hist.close_price, 1)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_1,
+                 lag(hist.close_price, 2)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_2,
+                 lag(hist.close_price, 3)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_3,
+                 lag(hist.close_price, 4)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_4,
+                 lag(hist.close_price, 5)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_5,
+                 lag(hist.close_price, 6)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_6,
+                 lag(hist.close_price, 7)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_7,
+                 lag(hist.close_price, 8)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_8,
+                 lag(hist.close_price, 9)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_9,
+                 lag(hist.close_price, 10)
+                 over (partition by curr.event_time order by hist.event_time)                        as close_price_lag_10,
+
+                 lag(hist.high_price, 1)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_1,
+                 lag(hist.high_price, 2)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_2,
+                 lag(hist.high_price, 3)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_3,
+                 lag(hist.high_price, 4)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_4,
+                 lag(hist.high_price, 5)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_5,
+                 lag(hist.high_price, 6)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_6,
+                 lag(hist.high_price, 7)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_7,
+                 lag(hist.high_price, 8)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_8,
+                 lag(hist.high_price, 9)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_9,
+                 lag(hist.high_price, 10)
+                 over (partition by curr.event_time order by hist.event_time)                        as high_price_lag_10,
+
+                 lag(hist.low_price, 1)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_1,
+                 lag(hist.low_price, 2)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_2,
+                 lag(hist.low_price, 3)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_3,
+                 lag(hist.low_price, 4)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_4,
+                 lag(hist.low_price, 5)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_5,
+                 lag(hist.low_price, 6)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_6,
+                 lag(hist.low_price, 7)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_7,
+                 lag(hist.low_price, 8)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_8,
+                 lag(hist.low_price, 9)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_9,
+                 lag(hist.low_price, 10)
+                 over (partition by curr.event_time order by hist.event_time)                        as low_price_lag_10,
+
+                 row_number() over (partition by curr.event_time order by hist.event_time desc )     as rank
+          from current_candle as curr
+                   left join history_candles as hist
+                             on curr.event_time >= hist.event_time
+--where curr.event_time = 1699616821827
+          order by curr.event_time)
+select *
+from pivot_curent
+where rank = 1
+    )
+;
+
+
+select
+    *
+from wizetrading.candle_5min_current_and_history
+where openprice > candle_5min_current_and_history.openprice_lag_1;
+
+- faire le même exercice pour tous les champs & toutes les timeframe
+- recherche de règle --> moving average ?
