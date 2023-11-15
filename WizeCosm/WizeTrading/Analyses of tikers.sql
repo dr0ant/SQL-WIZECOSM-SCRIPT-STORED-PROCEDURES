@@ -323,9 +323,41 @@ where rank = 1
 
 
 select
-    *
+    *,
+    (
+            COALESCE(openprice_lag_1, openprice) +
+            COALESCE(openprice_lag_2, openprice_lag_1) +
+            COALESCE(openprice_lag_3, COALESCE(openprice_lag_2, openprice_lag_1)) +
+            COALESCE(openprice_lag_4, COALESCE(openprice_lag_3, COALESCE(openprice_lag_2, openprice_lag_1))) +
+            COALESCE(openprice_lag_5,
+                     COALESCE(openprice_lag_4, COALESCE(openprice_lag_3, COALESCE(openprice_lag_2, openprice_lag_1))))
+        )/5 as avg_last_5_open_price,
+        (
+            COALESCE(close_price_lag_1, openprice) +
+            COALESCE(close_price_lag_2, close_price_lag_1) +
+            COALESCE(close_price_lag_3, COALESCE(close_price_lag_2, close_price_lag_1)) +
+            COALESCE(close_price_lag_4, COALESCE(close_price_lag_3, COALESCE(close_price_lag_2, close_price_lag_1))) +
+            COALESCE(close_price_lag_5,
+                     COALESCE(close_price_lag_4, COALESCE(close_price_lag_3, COALESCE(close_price_lag_2, close_price_lag_1))))
+        )/5 as avg_last_5_close_price,
+        (
+            COALESCE(low_price_lag_1, openprice) +
+            COALESCE(low_price_lag_2, low_price_lag_1) +
+            COALESCE(low_price_lag_3, COALESCE(low_price_lag_2, low_price_lag_1)) +
+            COALESCE(low_price_lag_4, COALESCE(low_price_lag_3, COALESCE(low_price_lag_2, low_price_lag_1))) +
+            COALESCE(low_price_lag_5,
+                     COALESCE(low_price_lag_4, COALESCE(low_price_lag_3, COALESCE(low_price_lag_2, low_price_lag_1))))
+        )/5 as avg_last_5_low_price,
+        (
+            COALESCE(high_price_lag_1, openprice) +
+            COALESCE(high_price_lag_2, high_price_lag_1) +
+            COALESCE(high_price_lag_3, COALESCE(high_price_lag_2, high_price_lag_1)) +
+            COALESCE(high_price_lag_4, COALESCE(high_price_lag_3, COALESCE(high_price_lag_2, high_price_lag_1))) +
+            COALESCE(high_price_lag_5,
+                     COALESCE(high_price_lag_4, COALESCE(high_price_lag_3, COALESCE(high_price_lag_2, high_price_lag_1))))
+        )/5 as avg_last_5_high_price
 from wizetrading.candle_5min_current_and_history
 where openprice > candle_5min_current_and_history.openprice_lag_1;
 
-- faire le même exercice pour tous les champs & toutes les timeframe
-- recherche de règle --> moving average ?
+-- faire le même exercice pour tous les champs & toutes les timeframe
+-- recherche de règle --> moving average ?
