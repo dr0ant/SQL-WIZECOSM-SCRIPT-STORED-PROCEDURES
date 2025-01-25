@@ -1,4 +1,4 @@
-create or replace function wizecosm.Alim_WIZ_chronological_events() returns varchar
+create function alim_wiz_chronological_events() returns character varying
     language plpgsql
 as
 $$
@@ -12,13 +12,13 @@ begin
                                          end_date, Blocked_BY, Blocks, Evernote_LINk, location, ADDED_DATE)
     SELECT src."Type",
            src."Label",
-           src."Identifier",
+           src."Internal_ID",
            src."Chronological_Position",
            src."Parent",
            to_date(src."Start_Date", 'YYYY-MM-DD'),
            src."Duration",
            to_date(src."End_Date", 'YYYY-MM-DD'),
-           src."Blocked_By",
+           src."Blocked_by",
            src."Blocks",
            src."Links",
            src."Location",
@@ -30,7 +30,5 @@ begin
 END
 $$;
 
-
-
-
+alter function alim_wiz_chronological_events() owner to aoavfbel;
 

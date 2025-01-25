@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS public.WIZ_chronological_events;
+DROP TABLE IF EXISTS wizecosm.WIZ_chronological_events;
 
-CREATE TABLE public.WIZ_chronological_events
+CREATE TABLE wizecosm.WIZ_chronological_events
 (
     Type                   VARCHAR(500),
     Label                  VARCHAR(1000),
